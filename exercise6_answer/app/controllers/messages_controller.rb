@@ -54,7 +54,7 @@ class MessagesController < ApplicationController
     user = User.find(params[:id])
 
     #ユーザーがお互いにフォローしているか確認し、していない場合はリダイレクト
-    unless current_user.following?(user) $$ user.following?(current_user)
+    unless current_user.following?(user) && user.following?(current_user)
       redirect_to books_path
     end
   end

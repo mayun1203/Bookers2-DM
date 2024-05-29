@@ -1,0 +1,38 @@
+<h2 id="room" data-room="<%= @room.id %>" data-user="<%= current_user.id %>"><%= @user.name %>さんとのチャット</h2>
+
+<div class="message" style="width: 400px;">
+  <% @messages.each do |message| %>
+    <% if message.user_id == current_user.id %>
+      <%= render "messages/message", message: message %>
+    <% else %>
+      <div class="left-container d-flex">
+        <%= image_tag @user.get_profile_image(30,30), style: 'border-radius: 50%' %>
+        <p class="ml-1", style="text-align: left;"><span style="background-color: #F5F5DC; padding: 5px; border-radius: 10px;"><%= message.message %></span></p>
+      </div>
+    <% end %>
+  <% end %>>
+</div>
+
+<div class="errors">
+  <%= render "layouts/errors", obj: @message %>
+</div>
+
+<%= form_with model: @message, data: {remote: true} do |f| %>
+<%= @room.id %>
+  <%= f.text_field :message %>
+  <%= f.submit "送信", class:"btn btn-dark btn-sm" %>
+  <%= f.hidden_field :room_id, value: @room.id %>
+<% end %>
+
+<!--ページがロードされた後に <p>タグが選択されそのテキストが「成功！！」に書き換えられます-->
+<!--このコードを実行するにはjQueryがinstallされていないと成功しない-->
+<!--jQueryが入っているか確認する時に記述すると良い-->
+<!--機能を非同期にするときはGem fileではなく[yarn add jquery]で行う‼️--
+<!--https://qiita.com/tatsuhiko-nakayama/items/b2f0c77e794ca8c9bd74-->
+<!--上記に登録方法が記載されている-->
+<p>テスト</p>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("p").text("成功！！");
+  });
+</script>
